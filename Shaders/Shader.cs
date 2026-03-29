@@ -63,6 +63,12 @@ public class Shader : IDisposable
         _gl.Uniform3(location, value.X, value.Y, value.Z);
     }
 
+    public void SetInt(string name, int value)
+    {
+        int location = _gl.GetUniformLocation(Handle, name);
+        _gl.Uniform1(location, value);
+    }
+
     private void CheckShader(uint shader)
     {
         _gl.GetShader(shader, ShaderParameterName.CompileStatus, out int status);

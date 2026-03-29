@@ -11,52 +11,55 @@ public class CubeMesh: IMesh
     private readonly uint _vao;
     private readonly uint _vbo;
     private readonly Shader _shader;
+    public Shader Shader => _shader;
     public Transform Transform { get; } = new Transform();
     public Vector3 Color = new Vector3(0.2f, 0.6f, 1.0f);
 
     private static readonly float[] _vertices = [
-         -0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
-        0.5f, -0.5f, -0.5f, 1.0f, 0.0f,
-        0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-        0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-        -0.5f, 0.5f, -0.5f, 0.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
+    // positions          // normals
+    -0.5f,-0.5f,-0.5f,  0f, 0f,-1f,
+     0.5f,-0.5f,-0.5f,  0f, 0f,-1f,
+     0.5f, 0.5f,-0.5f,  0f, 0f,-1f,
+     0.5f, 0.5f,-0.5f,  0f, 0f,-1f,
+    -0.5f, 0.5f,-0.5f,  0f, 0f,-1f,
+    -0.5f,-0.5f,-0.5f,  0f, 0f,-1f,
 
-        -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
-        0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
-        0.5f, 0.5f, 0.5f, 1.0f, 1.0f,
-        0.5f, 0.5f, 0.5f, 1.0f, 1.0f,
-        -0.5f, 0.5f, 0.5f, 0.0f, 1.0f,
-        -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+    -0.5f,-0.5f, 0.5f,  0f, 0f, 1f,
+     0.5f,-0.5f, 0.5f,  0f, 0f, 1f,
+     0.5f, 0.5f, 0.5f,  0f, 0f, 1f,
+     0.5f, 0.5f, 0.5f,  0f, 0f, 1f,
+    -0.5f, 0.5f, 0.5f,  0f, 0f, 1f,
+    -0.5f,-0.5f, 0.5f,  0f, 0f, 1f,
 
-        -0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
-        -0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-        -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
-        -0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+    -0.5f, 0.5f, 0.5f, -1f, 0f, 0f,
+    -0.5f, 0.5f,-0.5f, -1f, 0f, 0f,
+    -0.5f,-0.5f,-0.5f, -1f, 0f, 0f,
+    -0.5f,-0.5f,-0.5f, -1f, 0f, 0f,
+    -0.5f,-0.5f, 0.5f, -1f, 0f, 0f,
+    -0.5f, 0.5f, 0.5f, -1f, 0f, 0f,
 
-        0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
-        0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-        0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-        0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-        0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
-        0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+     0.5f, 0.5f, 0.5f,  1f, 0f, 0f,
+     0.5f, 0.5f,-0.5f,  1f, 0f, 0f,
+     0.5f,-0.5f,-0.5f,  1f, 0f, 0f,
+     0.5f,-0.5f,-0.5f,  1f, 0f, 0f,
+     0.5f,-0.5f, 0.5f,  1f, 0f, 0f,
+     0.5f, 0.5f, 0.5f,  1f, 0f, 0f,
 
-        -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-        0.5f, -0.5f, -0.5f, 1.0f, 1.0f,
-        0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
-        0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
-        -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
-        -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+    -0.5f,-0.5f,-0.5f,  0f,-1f, 0f,
+     0.5f,-0.5f,-0.5f,  0f,-1f, 0f,
+     0.5f,-0.5f, 0.5f,  0f,-1f, 0f,
+     0.5f,-0.5f, 0.5f,  0f,-1f, 0f,
+    -0.5f,-0.5f, 0.5f,  0f,-1f, 0f,
+    -0.5f,-0.5f,-0.5f,  0f,-1f, 0f,
 
-        -0.5f, 0.5f, -0.5f, 0.0f, 1.0f,
-        0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-        0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
-        0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
-        -0.5f, 0.5f, 0.5f, 0.0f, 0.0f,
-        -0.5f, 0.5f, -0.5f, 0.0f, 1.0f
-        ];
+    -0.5f, 0.5f,-0.5f,  0f, 1f, 0f,
+     0.5f, 0.5f,-0.5f,  0f, 1f, 0f,
+     0.5f, 0.5f, 0.5f,  0f, 1f, 0f,
+     0.5f, 0.5f, 0.5f,  0f, 1f, 0f,
+    -0.5f, 0.5f, 0.5f,  0f, 1f, 0f,
+    -0.5f, 0.5f,-0.5f,  0f, 1f, 0f,
+];
+
 
     public CubeMesh(GL gl)
     {
@@ -80,10 +83,10 @@ public class CubeMesh: IMesh
                     BufferUsageARB.StaticDraw);
             }
 
-            _graphics.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 5 * sizeof(float), (void*)0);
+            _graphics.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 6 * sizeof(float), (void*)0);
             _graphics.EnableVertexAttribArray(0);
 
-            _graphics.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+            _graphics.VertexAttribPointer(1, 3, VertexAttribPointerType.Float, false, 6 * sizeof(float), (void*)(3 * sizeof(float)));
             _graphics.EnableVertexAttribArray(1);
         }
     }

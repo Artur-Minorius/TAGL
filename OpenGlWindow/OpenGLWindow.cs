@@ -15,6 +15,8 @@ public class OpenGLWindow : IDisposable, IOpenGLWindow
     public bool IsClosing => _window?.IsClosing ?? false;
     public GL Graphics => _graphics;
     public Vector2D<int> Size => _window.Size;
+    private IList<IKeyboard> _keyboards;
+
     public OpenGLWindow()
     {
         var shadersFolder = Path.Combine();
@@ -27,6 +29,8 @@ public class OpenGLWindow : IDisposable, IOpenGLWindow
             _graphics = _window.CreateOpenGL();
 
             _inputContext = _window.CreateInput();
+
+            _keyboards = _inputContext.Keyboards.ToList();
         };
 
         _window.FramebufferResize += size =>
@@ -100,6 +104,14 @@ public class OpenGLWindow : IDisposable, IOpenGLWindow
     public void AddRender(Action<double> onRender)
     {
         _window.Render += onRender;
+    }
+
+    public void AddOnKeyDown(Action<Key> onKeyDown)
+    {
+        foreach (var keyboard in _keyboards)
+        {
+            keyboard.KeyDown += (_, key, _) => onKeyDown(key);
+        }
     }
 
     public void AddRender(Action<double, GL> onRender)
