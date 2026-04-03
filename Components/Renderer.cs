@@ -38,6 +38,7 @@ public class Renderer
         for (int i = 0; i < Lights.Count; i++)
             Lights[i].Apply(shader, i);
 
+        shader.SetVector3(ShaderNames.ViewPos, _camera.Position);
         shader.SetInt(ShaderNames.LightCount, Lights.Count);
 
         mesh.Draw(

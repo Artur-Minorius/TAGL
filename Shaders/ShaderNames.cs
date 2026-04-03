@@ -7,4 +7,5 @@ public static class ShaderNames
     public const string Projection = "projection";
     public const string ObjectColor = "objectColor";
     public const string LightCount = "lightCount";
+    public const string ViewPos = "viewPos";
 }

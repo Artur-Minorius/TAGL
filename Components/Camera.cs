@@ -5,42 +5,34 @@ namespace TAGL.Components;
 public class Camera
 {
     public Vector3 Position { get; set; } = new(0, 0, 3);
-    public Vector3 Target { get; set; } = Vector3.Zero;
+    public float Yaw { get; set; } = -MathF.PI / 2f;
+    public float Pitch { get; set; } = 0f;
     public float Fov { get; set; } = MathF.PI / 4f;
     public float Near { get; set; } = 0.1f;
     public float Far { get; set; } = 100f;
-
     private float _aspectRatio = 1f;
 
-    public void Resize(int width, int height)
+    public Vector3 Forward
     {
+        get
+        {
+            return Vector3.Normalize(new Vector3(
+                MathF.Cos(Pitch) * MathF.Cos(Yaw),
+                MathF.Sin(Pitch),
+                MathF.Cos(Pitch) * MathF.Sin(Yaw)
+            ));
+        }
+    }
+
+    public Vector3 Right => Vector3.Normalize(Vector3.Cross(Forward, Vector3.UnitY));
+    public Vector3 Up => Vector3.Normalize(Vector3.Cross(Right, Forward));
+
+    public void Resize(int width, int height) =>
         _aspectRatio = width / (float)height;
-    }
 
-    public Matrix4x4 GetViewMatrix()
-    {
-        var up = GetOrbitAxis();
+    public Matrix4x4 GetViewMatrix() =>
+        Matrix4x4.CreateLookAt(Position, Position + Forward, Vector3.UnitY);
 
-        return Matrix4x4.CreateLookAt(Position, Target, up);
-    }
-
-    public Matrix4x4 GetProjectionMatrix()
-    {
-        return Matrix4x4.CreatePerspectiveFieldOfView(
-            Fov,
-            _aspectRatio,
-            Near,
-            Far);
-    }
-
-    public Vector3 GetOrbitAxis()
-    {
-        var offset = Vector3.Normalize(Target - Position);
-
-        var up = MathF.Abs(Vector3.Dot(offset, Vector3.UnitY)) < 0.999f
-            ? Vector3.UnitY
-            : Vector3.UnitZ;
-
-        return up;
-    }
+    public Matrix4x4 GetProjectionMatrix() =>
+        Matrix4x4.CreatePerspectiveFieldOfView(Fov, _aspectRatio, Near, Far);
 }

@@ -16,7 +16,7 @@ public class OpenGLWindow : IDisposable, IOpenGLWindow
     public GL Graphics => _graphics;
     public Vector2D<int> Size => _window.Size;
     private IList<IKeyboard> _keyboards;
-
+    public IKeyboard? Keyboard => _keyboards.FirstOrDefault();
     public OpenGLWindow()
     {
         var shadersFolder = Path.Combine();
